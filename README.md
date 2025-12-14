@@ -4,6 +4,7 @@
 
 - [References](#references)
 - [Docker build](#docker-build)
+- [Docker push](#docker-push)
 
 ## References
 
@@ -12,7 +13,6 @@
 - [crd + operator: create simple example](https://github.com/sfmunoz/k8s-playground/issues/131)
 
 ## Docker build
-
 ```
 docker build \
   -t ghcr.io/sfmunoz/k8s-bulk:v0.1.0 \
@@ -20,4 +20,9 @@ docker build \
   -t ghcr.io/sfmunoz/k8s-bulk:v0 \
   -t ghcr.io/sfmunoz/k8s-bulk:git-abcdefg \
   .
+```
+
+## Docker push
+```
+docker push --all-tags ghcr.io/sfmunoz/k8s-bulk
 ```
