@@ -1,6 +1,6 @@
 # Check 'README.md' for usage instructions
 
-FROM python:3.13.10-alpine3.22
+FROM python:3.14.2-alpine3.23
 
 LABEL org.opencontainers.image.source=https://github.com/sfmunoz/k8s-bulk
 
