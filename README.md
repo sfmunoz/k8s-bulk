@@ -3,6 +3,7 @@
 **k8s-bulk** is a Kubernetes image meant to be used for multiple purposes: general housekeeping, operators, whatever may come up, ...
 
 - [References](#references)
+- [Docker pull](#docker-pull)
 - [Docker build](#docker-build)
 - [Docker push](#docker-push)
 
@@ -11,6 +12,11 @@
 - [https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry)
 - [https://github.com/sfmunoz/postgres-image](https://github.com/sfmunoz/postgres-image)
 - [crd + operator: create simple example](https://github.com/sfmunoz/k8s-playground/issues/131)
+
+## Docker pull
+```
+docker pull ghcr.io/sfmunoz/k8s-bulk:git-abcdefg
+```
 
 ## Docker build
 ```
