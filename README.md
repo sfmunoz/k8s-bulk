@@ -22,9 +22,9 @@ docker pull ghcr.io/sfmunoz/k8s-bulk:git-abcdefg
 ## Docker build
 ```
 docker build \
-  -t ghcr.io/sfmunoz/k8s-bulk:v0.1.0 \
-  -t ghcr.io/sfmunoz/k8s-bulk:v0.1 \
-  -t ghcr.io/sfmunoz/k8s-bulk:v0 \
+  -t ghcr.io/sfmunoz/k8s-bulk:v1.0.0 \
+  -t ghcr.io/sfmunoz/k8s-bulk:v1.0 \
+  -t ghcr.io/sfmunoz/k8s-bulk:v1 \
   -t ghcr.io/sfmunoz/k8s-bulk:git-abcdefg \
   -t ghcr.io/sfmunoz/k8s-bulk:latest \
   .
