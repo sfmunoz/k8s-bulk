@@ -26,6 +26,7 @@ docker build \
   -t ghcr.io/sfmunoz/k8s-bulk:v0.1 \
   -t ghcr.io/sfmunoz/k8s-bulk:v0 \
   -t ghcr.io/sfmunoz/k8s-bulk:git-abcdefg \
+  -t ghcr.io/sfmunoz/k8s-bulk:latest \
   .
 ```
 
