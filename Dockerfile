@@ -6,7 +6,7 @@ LABEL org.opencontainers.image.source=https://github.com/sfmunoz/k8s-bulk
 
 RUN pip install --no-cache-dir requests kubernetes kopf vultr-python Jinja2
 
-RUN apk add --no-cache rclone curl
+RUN apk add --no-cache rclone curl openssh-client-default
 
 RUN curl -L -o /usr/local/bin/butane https://github.com/coreos/butane/releases/download/v0.25.1/butane-x86_64-unknown-linux-gnu \
   && chmod 755 /usr/local/bin/butane \
