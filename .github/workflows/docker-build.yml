@@ -45,8 +45,5 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/k8s-bulk:${{ steps.version.outputs.version }}
             ghcr.io/${{ github.repository_owner }}/k8s-bulk:latest
-          annotations: |
-            org.opencontainers.image.source=https://github.com/${{ github.repository }}
-            org.opencontainers.image.version=${{ steps.version.outputs.version }}
-            org.opencontainers.image.revision=${{ github.sha }}
-            org.opencontainers.image.description=${{ steps.annotation.outputs.message }}
+          build-args: |
+            DESCRIPTION=${{ steps.annotation.outputs.message }}
