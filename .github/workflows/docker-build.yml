@@ -21,6 +21,14 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-tags: true
+
+      - name: Extract tag annotation
+        id: annotation
+        run: |
+          MSG="$(git tag -l --format='%(contents:subject)' "${GITHUB_REF_NAME}")"
+          echo "message=${MSG}" >> "${GITHUB_OUTPUT}"
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
@@ -39,3 +47,8 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/k8s-bulk:${{ steps.version.outputs.version }}
             ghcr.io/${{ github.repository_owner }}/k8s-bulk:latest
+          annotations: |
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.version=${{ steps.version.outputs.version }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.description=${{ steps.annotation.outputs.message }}
