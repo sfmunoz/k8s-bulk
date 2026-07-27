@@ -43,6 +43,8 @@ README.md: 'Devel' section added
 
 ## CI/CD
 
+**Tag creation and push instructions are in the README's "Docker build" section.**
+
 - **Trigger**: push of a `v*` tag (e.g. `v0.1.0`)
 - **Action**: builds and pushes to GHCR with two tags:
   - `ghcr.io/sfmunoz/k8s-bulk:<semver>` (version stripped of `v`)
