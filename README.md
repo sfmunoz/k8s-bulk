@@ -7,6 +7,7 @@
 - [https://github.com/sfmunoz/k8s-bulk/pkgs/container/k8s-bulk](https://github.com/sfmunoz/k8s-bulk/pkgs/container/k8s-bulk)
 - [https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry)
 - [https://github.com/sfmunoz/postgres-image](https://github.com/sfmunoz/postgres-image)
+- [https://github.com/sfmunoz/anki-sync-server](https://github.com/sfmunoz/anki-sync-server)
 - [crd + operator: create simple example](https://github.com/sfmunoz/k8s-playground/issues/131)
 
 ## Docker pull
