@@ -2,11 +2,6 @@
 
 **k8s-bulk** is a Kubernetes image meant to be used for multiple purposes: general housekeeping, operators, whatever may come up, ...
 
-- [References](#references)
-- [Docker pull](#docker-pull)
-- [Docker build](#docker-build)
-- [Docker push](#docker-push)
-
 ## References
 
 - [https://github.com/sfmunoz/k8s-bulk/pkgs/container/k8s-bulk](https://github.com/sfmunoz/k8s-bulk/pkgs/container/k8s-bulk)
