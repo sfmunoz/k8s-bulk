@@ -42,5 +42,5 @@ On push, the workflow builds with `no-cache: true` and pushes two tags to GHCR:
 
 ## Docker pull
 ```
-docker pull ghcr.io/sfmunoz/k8s-bulk:git-abcdefg
+docker pull ghcr.io/sfmunoz/k8s-bulk:v2.0.1
 ```
