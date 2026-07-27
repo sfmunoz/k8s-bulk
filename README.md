@@ -10,6 +10,12 @@
 - [https://github.com/sfmunoz/anki-sync-server](https://github.com/sfmunoz/anki-sync-server)
 - [crd + operator: create simple example](https://github.com/sfmunoz/k8s-playground/issues/131)
 
+## Devel
+
+```
+docker build -t ghcr.io/sfmunoz/k8s-bulk:devel .
+```
+
 ## Docker pull
 ```
 docker pull ghcr.io/sfmunoz/k8s-bulk:git-abcdefg
