@@ -6,6 +6,6 @@ LABEL org.opencontainers.image.source=https://github.com/sfmunoz/k8s-bulk
 
 RUN pip install --no-cache-dir requests
 
-RUN apk add --no-cache rclone curl openssh-client-default sqlite
+RUN apk add --no-cache rclone curl sqlite
 
 CMD python3
