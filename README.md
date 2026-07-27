@@ -20,8 +20,3 @@ docker build -t ghcr.io/sfmunoz/k8s-bulk:devel .
 ```
 docker pull ghcr.io/sfmunoz/k8s-bulk:git-abcdefg
 ```
-
-## Docker push
-```
-docker push --all-tags ghcr.io/sfmunoz/k8s-bulk
-```
