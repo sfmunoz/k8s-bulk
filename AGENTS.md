@@ -27,7 +27,7 @@ needed.
 docker build -t ghcr.io/sfmunoz/k8s-bulk:devel .
 ```
 
-No special build args. Standard `docker build` from repo root.
+Optional build arg: `DESCRIPTION` — sets the `org.opencontainers.image.description` label. In CI this is populated from the git tag annotation.
 
 ## Commit style
 
@@ -49,6 +49,12 @@ README.md: 'Devel' section added
   - `ghcr.io/sfmunoz/k8s-bulk:latest`
 - **Permissions**: `packages: write`
 - **No cache** (`no-cache: true`) — always clean build
+- **Tag annotation to image description**: The `org.opencontainers.image.description`
+  label is populated from the git tag annotation via `git tag -l --format='%(contents:subject)'`.
+  **Pitfall**: `actions/checkout@v4` does not create local tag refs by default, so
+  the workflow explicitly fetches the annotated tag with `git fetch origin tag`
+  before reading it. If you omit that step, `git tag -l` returns empty and the
+  GHCR description falls through to the last commit message.
 
 ## References
 

@@ -25,6 +25,10 @@ jobs:
       - name: Extract tag annotation
         id: annotation
         run: |
+          # Explicitly fetch the annotated tag object — actions/checkout doesn't
+          # fetch tags by default, leaving git tag -l with nothing (or a
+          # lightweight pointer that returns the commit subject instead).
+          git fetch origin tag "${GITHUB_REF_NAME}" --depth=1
           MSG="$(git tag -l --format='%(contents:subject)' "${GITHUB_REF_NAME}")"
           echo "message=${MSG}" >> "${GITHUB_OUTPUT}"
 
