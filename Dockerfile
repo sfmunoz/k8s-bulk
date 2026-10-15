@@ -32,4 +32,6 @@ ARG DESCRIPTION=
 LABEL org.opencontainers.image.source=https://github.com/sfmunoz/k8s-bulk
 LABEL org.opencontainers.image.description="${DESCRIPTION}"
 
+# zsh is the default shell for interactive sessions
+ENV SHELL=/usr/bin/zsh
 CMD ["zsh"]
