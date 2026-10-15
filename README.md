@@ -1,10 +1,10 @@
 # k8s-bulk
 
 **k8s-bulk** is a minimal Kubernetes utility image published to GHCR. It's a generic
-Alpine-based Python image with a few CLI tools baked in, designed for general
+Debian-based image with a few CLI tools baked in, designed for general
 housekeeping, operators, and ad-hoc tasks inside a cluster.
 
-Base image: `python:3.14.6-alpine3.24`
+Base image: `debian:13.7-slim`
 Registry: `ghcr.io/sfmunoz/k8s-bulk`
 
 ## Installed packages
@@ -13,11 +13,9 @@ Registry: `ghcr.io/sfmunoz/k8s-bulk`
 |---------|---------|
 | rclone  | Cloud storage sync (S3, GCS, etc.) |
 | curl    | HTTP requests, API calls, health checks |
-| sqlite  | Lightweight local data queries |
+| sqlite3 | Lightweight local data queries |
 
-All other Python packages (kubernetes, kopf, vultr-python, Jinja2, paramiko,
-requests) have been **removed** to keep the image slim. Install at runtime if
-needed.
+No interpreter or language runtime is bundled. Install what you need at runtime.
 
 ## References
 

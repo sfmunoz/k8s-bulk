@@ -1,13 +1,13 @@
 # Check 'README.md' for usage instructions
 
-FROM python:3.14.6-alpine3.24
+FROM debian:13.7-slim
 
-#RUN pip install --no-cache-dir requests
-
-RUN apk add --no-cache rclone curl sqlite
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ca-certificates rclone curl sqlite3 \
+    && rm -rf /var/lib/apt/lists/*
 
 ARG DESCRIPTION=
 LABEL org.opencontainers.image.source=https://github.com/sfmunoz/k8s-bulk
 LABEL org.opencontainers.image.description="${DESCRIPTION}"
 
-CMD python3
+CMD ["bash"]
