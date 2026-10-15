@@ -21,8 +21,10 @@ Registry: `ghcr.io/sfmunoz/k8s-bulk`
 | htop    | Interactive process viewer |
 | procps  | Process and system utilities (ps, top, free, vmstat) |
 | less    | Pager for viewing files |
+| python3 | Python 3 interpreter |
 
-No interpreter or language runtime is bundled. Install what you need at runtime.
+`python3` is the only bundled interpreter. Install any other language runtime at
+runtime.
 
 ## References
 
