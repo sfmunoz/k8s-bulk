@@ -22,6 +22,7 @@ Registry: `ghcr.io/sfmunoz/k8s-bulk`
 | procps  | Process and system utilities (ps, top, free, vmstat) |
 | less    | Pager for viewing files |
 | python3 | Python 3 interpreter |
+| zellij  | Terminal workspace and multiplexer (upstream static binary) |
 
 `python3` is the only bundled interpreter. Install any other language runtime at
 runtime.
