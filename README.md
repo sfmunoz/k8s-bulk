@@ -20,6 +20,7 @@ Registry: `ghcr.io/sfmunoz/k8s-bulk`
 | tmux    | Terminal multiplexer |
 | htop    | Interactive process viewer |
 | procps  | Process and system utilities (ps, top, free, vmstat) |
+| less    | Pager for viewing files |
 
 No interpreter or language runtime is bundled. Install what you need at runtime.
 
