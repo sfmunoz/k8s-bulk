@@ -18,6 +18,7 @@ Registry: `ghcr.io/sfmunoz/k8s-bulk`
 | zsh     | Interactive shell with completion and theming |
 | neovim  | Modal text editor |
 | tmux    | Terminal multiplexer |
+| htop    | Interactive process viewer |
 
 No interpreter or language runtime is bundled. Install what you need at runtime.
 
