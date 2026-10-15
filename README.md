@@ -27,6 +27,8 @@ Registry: `ghcr.io/sfmunoz/k8s-bulk`
 `python3` is the only bundled interpreter. Install any other language runtime at
 runtime.
 
+`zsh` is the login shell for `root`, with zsh defaults (no configuration is shipped).
+
 ## References
 
 - [https://github.com/sfmunoz/k8s-bulk/pkgs/container/k8s-bulk](https://github.com/sfmunoz/k8s-bulk/pkgs/container/k8s-bulk)
