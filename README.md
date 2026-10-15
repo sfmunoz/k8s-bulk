@@ -16,6 +16,7 @@ Registry: `ghcr.io/sfmunoz/k8s-bulk`
 | curl    | HTTP requests, API calls, health checks |
 | sqlite3 | Lightweight local data queries |
 | zsh     | Interactive shell with completion and theming |
+| neovim  | Modal text editor |
 
 No interpreter or language runtime is bundled. Install what you need at runtime.
 
