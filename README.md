@@ -19,6 +19,7 @@ Registry: `ghcr.io/sfmunoz/k8s-bulk`
 | neovim  | Modal text editor |
 | tmux    | Terminal multiplexer |
 | htop    | Interactive process viewer |
+| procps  | Process and system utilities (ps, top, free, vmstat) |
 
 No interpreter or language runtime is bundled. Install what you need at runtime.
 
