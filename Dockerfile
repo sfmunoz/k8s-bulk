@@ -6,6 +6,9 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends ca-certificates rclone curl sqlite3 zsh neovim tmux htop procps less python3 \
     && rm -rf /var/lib/apt/lists/*
 
+# zsh is the login shell for root
+RUN usermod -s /usr/bin/zsh root
+
 # zellij is not packaged in Debian 13: install the upstream static musl binary
 ARG ZELLIJ_VERSION=0.45.1
 ARG TARGETARCH
@@ -29,4 +32,6 @@ ARG DESCRIPTION=
 LABEL org.opencontainers.image.source=https://github.com/sfmunoz/k8s-bulk
 LABEL org.opencontainers.image.description="${DESCRIPTION}"
 
-CMD ["bash"]
+# zsh is the default shell for interactive sessions
+ENV SHELL=/usr/bin/zsh
+CMD ["zsh", "-l"]
