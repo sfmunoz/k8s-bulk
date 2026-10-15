@@ -37,7 +37,7 @@ docker build -t ghcr.io/sfmunoz/k8s-bulk:devel .
 The CI workflow (`.github/workflows/docker-build.yml`) builds and pushes to
 GHCR when a `v*` tag is pushed.
 
-Tag format: `v<semver>` — e.g. `v2.0.0`, `v2.0.1-rc.1`.
+Tag format: `vX.Y.Z`, with `vX.Y.Z-rc.N` for pre-releases.
 
 ```sh
 # Create an annotated tag (the annotation becomes the GHCR image description)
@@ -59,5 +59,5 @@ On push, the workflow builds with `no-cache: true` and pushes two tags to GHCR:
 ## Docker pull
 
 ```sh
-docker pull ghcr.io/sfmunoz/k8s-bulk:2.0.3
+docker pull ghcr.io/sfmunoz/k8s-bulk:X.Y.Z
 ```
