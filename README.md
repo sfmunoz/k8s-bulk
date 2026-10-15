@@ -11,6 +11,7 @@ Registry: `ghcr.io/sfmunoz/k8s-bulk`
 
 | Package | Purpose |
 |---------|---------|
+| ca-certificates | TLS trust store for curl and rclone |
 | rclone  | Cloud storage sync (S3, GCS, etc.) |
 | curl    | HTTP requests, API calls, health checks |
 | sqlite3 | Lightweight local data queries |
@@ -58,5 +59,5 @@ On push, the workflow builds with `no-cache: true` and pushes two tags to GHCR:
 ## Docker pull
 
 ```sh
-docker pull ghcr.io/sfmunoz/k8s-bulk:2.0.2
+docker pull ghcr.io/sfmunoz/k8s-bulk:2.0.3
 ```
