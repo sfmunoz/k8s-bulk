@@ -15,6 +15,7 @@ Registry: `ghcr.io/sfmunoz/k8s-bulk`
 | rclone  | Cloud storage sync (S3, GCS, etc.) |
 | curl    | HTTP requests, API calls, health checks |
 | sqlite3 | Lightweight local data queries |
+| zsh     | Interactive shell with completion and theming |
 
 No interpreter or language runtime is bundled. Install what you need at runtime.
 
