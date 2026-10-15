@@ -34,4 +34,4 @@ LABEL org.opencontainers.image.description="${DESCRIPTION}"
 
 # zsh is the default shell for interactive sessions
 ENV SHELL=/usr/bin/zsh
-CMD ["zsh"]
+CMD ["zsh", "-l"]
