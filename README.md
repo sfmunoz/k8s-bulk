@@ -15,8 +15,16 @@ Registry: `ghcr.io/sfmunoz/k8s-bulk`
 | rclone  | Cloud storage sync (S3, GCS, etc.) |
 | curl    | HTTP requests, API calls, health checks |
 | sqlite3 | Lightweight local data queries |
+| zsh     | Interactive shell with completion and theming |
+| neovim  | Modal text editor |
+| tmux    | Terminal multiplexer |
+| htop    | Interactive process viewer |
+| procps  | Process and system utilities (ps, top, free, vmstat) |
+| less    | Pager for viewing files |
+| python3 | Python 3 interpreter |
 
-No interpreter or language runtime is bundled. Install what you need at runtime.
+`python3` is the only bundled interpreter. Install any other language runtime at
+runtime.
 
 ## References
 
