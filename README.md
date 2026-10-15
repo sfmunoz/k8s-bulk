@@ -17,6 +17,7 @@ Registry: `ghcr.io/sfmunoz/k8s-bulk`
 | sqlite3 | Lightweight local data queries |
 | zsh     | Interactive shell with completion and theming |
 | neovim  | Modal text editor |
+| tmux    | Terminal multiplexer |
 
 No interpreter or language runtime is bundled. Install what you need at runtime.
 
