@@ -4,15 +4,18 @@
 Debian-based image with a few CLI tools baked in, designed for general
 housekeeping, operators, and ad-hoc tasks inside a cluster.
 
-Base image: `debian:13.7-slim`
+Base image: `debian:forky-20261005-slim`
 Registry: `ghcr.io/sfmunoz/k8s-bulk`
+
+The base is Debian *testing* (forky), pinned to a dated snapshot tag: reproducible,
+but security updates only land when the tag is bumped.
 
 ## Installed packages
 
 | Package | Purpose |
 |---------|---------|
 | ca-certificates | TLS trust store for curl and rclone |
-| rclone  | Cloud storage sync (S3, GCS, etc.) |
+| rclone  | Cloud storage sync (S3, GCS, etc.; upstream static binary) |
 | curl    | HTTP requests, API calls, health checks |
 | git     | Version control |
 | ripgrep | Fast recursive search (`rg`) |
@@ -26,7 +29,8 @@ Registry: `ghcr.io/sfmunoz/k8s-bulk`
 | less    | Pager for viewing files |
 | python3 | Python 3 interpreter |
 | zellij  | Terminal workspace and multiplexer (upstream static binary) |
-| nodejs  | Node.js 24 LTS runtime and npm (upstream tarball) |
+| nodejs  | Node.js 24 LTS runtime and npm (Debian package) |
+| unzip   | Extract ZIP archives (used to install rclone) |
 
 `python3` and `nodejs` are the bundled runtimes, and `nodejs` comes with `npm`.
 Install any other language runtime at runtime.
