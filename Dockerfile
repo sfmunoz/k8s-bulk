@@ -26,6 +26,7 @@ RUN set -eux; \
     actual="$(sha256sum /usr/local/bin/zellij | awk '{print $1}')"; \
     [ "${expected}" = "${actual}" ]; \
     rm -f /tmp/zellij.tar.gz /tmp/zellij.sha256sum; \
+    grep -qxF /usr/local/bin/zellij /etc/shells || echo /usr/local/bin/zellij >> /etc/shells; \
     zellij --version
 
 ARG DESCRIPTION=
