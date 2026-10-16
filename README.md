@@ -29,6 +29,9 @@ runtime.
 
 `zsh` is the login shell for `root`, with zsh defaults (no configuration is shipped).
 
+`tmux` and `zellij` are registered in `/etc/shells`, so either can be set as a login
+shell.
+
 ## References
 
 - [https://github.com/sfmunoz/k8s-bulk/pkgs/container/k8s-bulk](https://github.com/sfmunoz/k8s-bulk/pkgs/container/k8s-bulk)
