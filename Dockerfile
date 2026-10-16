@@ -46,5 +46,9 @@ RUN set -eux; \
     rm -f /tmp/rclone.zip /tmp/rclone.sha256sum; \
     env -u RCLONE_VERSION rclone version
 
+ARG DESCRIPTION=
+LABEL org.opencontainers.image.source=https://github.com/sfmunoz/k8s-bulk
+LABEL org.opencontainers.image.description="${DESCRIPTION}"
+
 ENV SHELL=/usr/bin/zsh
 CMD ["zsh", "-l"]
