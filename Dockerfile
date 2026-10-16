@@ -1,11 +1,15 @@
+# Check 'README.md' for usage instructions
+
 FROM debian:forky-20261005-slim
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends ca-certificates curl git ripgrep fd-find sqlite3 zsh neovim tmux htop procps less python3 nodejs npm unzip \
     && rm -rf /var/lib/apt/lists/*
 
+# zsh is the login shell for root
 RUN usermod -s /usr/bin/zsh root
 
+# zellij is not packaged in Debian testing: install the upstream static musl binary
 ARG ZELLIJ_VERSION=0.45.1
 ARG TARGETARCH
 RUN set -eux; \
@@ -50,5 +54,6 @@ ARG DESCRIPTION=
 LABEL org.opencontainers.image.source=https://github.com/sfmunoz/k8s-bulk
 LABEL org.opencontainers.image.description="${DESCRIPTION}"
 
+# zsh is the default shell for interactive sessions
 ENV SHELL=/usr/bin/zsh
 CMD ["zsh", "-l"]

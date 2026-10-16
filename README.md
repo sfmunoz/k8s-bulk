@@ -7,6 +7,9 @@ housekeeping, operators, and ad-hoc tasks inside a cluster.
 Base image: `debian:forky-20261005-slim`
 Registry: `ghcr.io/sfmunoz/k8s-bulk`
 
+The base is Debian *testing* (forky), pinned to a dated snapshot tag: reproducible,
+but security updates only land when the tag is bumped.
+
 ## Installed packages
 
 | Package | Purpose |
@@ -26,7 +29,8 @@ Registry: `ghcr.io/sfmunoz/k8s-bulk`
 | less    | Pager for viewing files |
 | python3 | Python 3 interpreter |
 | zellij  | Terminal workspace and multiplexer (upstream static binary) |
-| nodejs  | Node.js 24 LTS runtime and npm (upstream tarball) |
+| nodejs  | Node.js 24 LTS runtime and npm (Debian package) |
+| unzip   | Extract ZIP archives (used to install rclone) |
 
 `python3` and `nodejs` are the bundled runtimes, and `nodejs` comes with `npm`.
 Install any other language runtime at runtime.
