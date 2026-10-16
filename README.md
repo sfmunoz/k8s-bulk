@@ -4,7 +4,7 @@
 Debian-based image with a few CLI tools baked in, designed for general
 housekeeping, operators, and ad-hoc tasks inside a cluster.
 
-Base image: `debian:13.7-slim`
+Base image: `debian:forky-20261005-slim`
 Registry: `ghcr.io/sfmunoz/k8s-bulk`
 
 ## Installed packages
