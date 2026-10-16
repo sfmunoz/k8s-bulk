@@ -23,9 +23,10 @@ Registry: `ghcr.io/sfmunoz/k8s-bulk`
 | less    | Pager for viewing files |
 | python3 | Python 3 interpreter |
 | zellij  | Terminal workspace and multiplexer (upstream static binary) |
+| nodejs  | Node.js 24 LTS runtime and npm (upstream tarball) |
 
-`python3` is the only bundled interpreter. Install any other language runtime at
-runtime.
+`python3` and `nodejs` are the bundled runtimes, and `nodejs` comes with `npm`.
+Install any other language runtime at runtime.
 
 `zsh` is the login shell for `root`, with zsh defaults (no configuration is shipped).
 
