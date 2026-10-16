@@ -12,7 +12,7 @@ Registry: `ghcr.io/sfmunoz/k8s-bulk`
 | Package | Purpose |
 |---------|---------|
 | ca-certificates | TLS trust store for curl and rclone |
-| rclone  | Cloud storage sync (S3, GCS, etc.) |
+| rclone  | Cloud storage sync (S3, GCS, etc.; upstream static binary) |
 | curl    | HTTP requests, API calls, health checks |
 | git     | Version control |
 | ripgrep | Fast recursive search (`rg`) |
