@@ -43,7 +43,7 @@ Install any other language runtime at runtime.
 `zsh` is the login shell for `root` and `bulk`.
 
 oh-my-zsh is installed for `root` in `/root/.oh-my-zsh` with the stock
-`templates/zshrc.zsh-template` as `/root/.zshrc` (theme `robbyrussell`). The same tree
+`templates/zshrc.zsh-template` as `/root/.zshrc`, with `ZSH_THEME` set to `fino`. The same tree
 is seeded into `/etc/skel` (hardlinked in the image), so every user created afterwards
 — `bulk`, and any user created at runtime with `useradd -m` — gets its own copy in its
 home directory, owned by that user. The template sets `ZSH="$HOME/.oh-my-zsh"`, so each

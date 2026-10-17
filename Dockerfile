@@ -66,6 +66,8 @@ RUN set -eux; \
     git -C /root/.oh-my-zsh fetch -q --depth 1 origin "${OMZ_COMMIT}"; \
     git -C /root/.oh-my-zsh checkout -q -B master "${OMZ_COMMIT}"; \
     cp /root/.oh-my-zsh/templates/zshrc.zsh-template /root/.zshrc; \
+    sed -i 's/^ZSH_THEME="robbyrussell"/ZSH_THEME="fino"/' /root/.zshrc; \
+    grep -qxF 'ZSH_THEME="fino"' /root/.zshrc; \
     cp -a /root/.zshrc /etc/skel/.zshrc; \
     cp -al /root/.oh-my-zsh /etc/skel/.oh-my-zsh
 
