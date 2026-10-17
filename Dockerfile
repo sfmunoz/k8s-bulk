@@ -6,10 +6,19 @@ FROM debian:forky-20261005-slim
 RUN printf 'APT::Install-Recommends "false";\nAPT::Install-Suggests "false";\n' \
     > /etc/apt/apt.conf.d/99no-recommends
 
-# systemd-standalone-sysusers satisfies openssh-client's sysusers dependency
-# without dragging in the full systemd package
+# Packages are installed in three groups, most stable first: a change to a group
+# only invalidates that group's layer and the ones below it.
 RUN apt-get update \
-    && apt-get install -y ca-certificates curl git ripgrep fd-find sqlite3 zsh neovim tmux htop procps less python3 nodejs npm unzip openssh-client systemd-standalone-sysusers sudo \
+    && apt-get install -y ca-certificates curl git openssh-client unzip less procps sudo systemd-standalone-sysusers \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update \
+    && apt-get install -y python3 nodejs npm \
+    && rm -rf /var/lib/apt/lists/*
+
+# shell, editor and interactive tools: the most likely to be dropped
+RUN apt-get update \
+    && apt-get install -y zsh neovim tmux htop ripgrep fd-find sqlite3 \
     && rm -rf /var/lib/apt/lists/*
 
 # zellij is not packaged in Debian testing: install the upstream static musl binary

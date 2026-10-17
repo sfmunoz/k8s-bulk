@@ -112,6 +112,14 @@ or Kubernetes `securityContext.fsGroup`.
 docker build -t ghcr.io/sfmunoz/k8s-bulk:devel .
 ```
 
+Dockerfile layers are ordered by stability, most stable first: every `RUN` below a
+changed one is rebuilt and re-pushed. Keep the three apt groups (core, runtimes, tools)
+as they are — merging them makes any single package change rebuild the whole 550 MB of
+packages. Measured on a package removal: 116 s merged vs 25 s split (warm cache).
+
+`ARG DESCRIPTION`, `LABEL`s, oh-my-zsh and the user creation come last because
+`DESCRIPTION` changes on every release.
+
 ## Docker build
 
 The CI workflow (`.github/workflows/docker-build.yml`) builds and pushes to
