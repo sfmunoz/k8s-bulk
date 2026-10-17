@@ -39,10 +39,37 @@ installed at runtime stay minimal.
 `python3` and `nodejs` are the bundled runtimes, and `nodejs` comes with `npm`.
 Install any other language runtime at runtime.
 
-`zsh` is the login shell for `root`, with zsh defaults (no configuration is shipped).
+`zsh` is the login shell for `root` and `bulk`, with zsh defaults (no configuration
+is shipped).
 
 `tmux` and `zellij` are registered in `/etc/shells`, so either can be set as a login
 shell.
+
+## User
+
+Everything runs as the unprivileged user `bulk` (UID/GID `1000:1000`), with
+`/home/bulk` as its home directory and working directory. The numeric UID is set
+explicitly so Kubernetes accepts `runAsNonRoot: true`, which can only verify a
+numeric user.
+
+Root is still reachable when you really need it — no `sudo` is installed:
+
+```sh
+# docker
+docker run --rm -u 0 -it ghcr.io/sfmunoz/k8s-bulk:devel
+```
+
+```yaml
+# Kubernetes: override the user for a single container
+securityContext:
+  runAsUser: 0
+```
+
+Runtime installs must land in `$HOME` (`npm config set prefix ~/.npm-global`,
+`pip install --user`); `/usr/local` and `/etc` are root-owned and not writable.
+
+When mounting a volume, make it writable for UID `1000`, either with `chown 1000:1000`
+or Kubernetes `securityContext.fsGroup`.
 
 ## References
 

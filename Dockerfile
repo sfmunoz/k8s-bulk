@@ -12,8 +12,11 @@ RUN apt-get update \
     && apt-get install -y ca-certificates curl git ripgrep fd-find sqlite3 zsh neovim tmux htop procps less python3 nodejs npm unzip openssh-client systemd-standalone-sysusers \
     && rm -rf /var/lib/apt/lists/*
 
-# zsh is the login shell for root
-RUN usermod -s /usr/bin/zsh root
+# bulk is the runtime user: fixed numeric UID/GID (1000 is the first regular
+# user on Debian) so Kubernetes can verify it with runAsNonRoot
+RUN groupadd --gid 1000 bulk \
+    && useradd --uid 1000 --gid bulk --shell /usr/bin/zsh --create-home bulk \
+    && usermod -s /usr/bin/zsh root
 
 # zellij is not packaged in Debian testing: install the upstream static musl binary
 ARG ZELLIJ_VERSION=0.45.1
@@ -62,4 +65,10 @@ LABEL org.opencontainers.image.description="${DESCRIPTION}"
 
 # zsh is the default shell for interactive sessions
 ENV SHELL=/usr/bin/zsh
+ENV HOME=/home/bulk
+
+# everything at runtime runs unprivileged; use 'docker run -u 0' when root is needed
+USER 1000:1000
+WORKDIR /home/bulk
+
 CMD ["zsh", "-l"]
