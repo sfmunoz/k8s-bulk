@@ -35,6 +35,7 @@ installed at runtime stay minimal.
 | zellij  | Terminal workspace and multiplexer (upstream static binary) |
 | nodejs  | Node.js 24 LTS runtime and npm (Debian package) |
 | unzip   | Extract ZIP archives (used to install rclone) |
+| sudo    | Run commands as root (granted to `bulk`, see below) |
 | oh-my-zsh | zsh framework (upstream git, pinned commit; seeded into `/etc/skel`) |
 
 `python3` and `nodejs` are the bundled runtimes, and `nodejs` comes with `npm`.

@@ -9,7 +9,7 @@ RUN printf 'APT::Install-Recommends "false";\nAPT::Install-Suggests "false";\n' 
 # systemd-standalone-sysusers satisfies openssh-client's sysusers dependency
 # without dragging in the full systemd package
 RUN apt-get update \
-    && apt-get install -y ca-certificates curl git ripgrep fd-find sqlite3 zsh neovim tmux htop procps less python3 nodejs npm unzip openssh-client systemd-standalone-sysusers \
+    && apt-get install -y ca-certificates curl git ripgrep fd-find sqlite3 zsh neovim tmux htop procps less python3 nodejs npm unzip openssh-client systemd-standalone-sysusers sudo \
     && rm -rf /var/lib/apt/lists/*
 
 # zellij is not packaged in Debian testing: install the upstream static musl binary
