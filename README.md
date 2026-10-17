@@ -19,6 +19,7 @@ installed at runtime stay minimal.
 |---------|---------|
 | ca-certificates | TLS trust store for curl and rclone |
 | rclone  | Cloud storage sync (S3, GCS, etc.; upstream static binary) |
+| restic  | Deduplicated, encrypted backup snapshots (S3, etc.) |
 | curl    | HTTP requests, API calls, health checks |
 | git     | Version control |
 | ripgrep | Fast recursive search (`rg`) |
