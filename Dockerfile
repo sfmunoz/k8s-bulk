@@ -12,12 +12,6 @@ RUN apt-get update \
     && apt-get install -y ca-certificates curl git ripgrep fd-find sqlite3 zsh neovim tmux htop procps less python3 nodejs npm unzip openssh-client systemd-standalone-sysusers \
     && rm -rf /var/lib/apt/lists/*
 
-# bulk is the runtime user: fixed numeric UID/GID (1000 is the first regular
-# user on Debian) so Kubernetes can verify it with runAsNonRoot
-RUN groupadd --gid 1000 bulk \
-    && useradd --uid 1000 --gid bulk --shell /usr/bin/zsh --create-home bulk \
-    && usermod -s /usr/bin/zsh root
-
 # zellij is not packaged in Debian testing: install the upstream static musl binary
 ARG ZELLIJ_VERSION=0.45.1
 ARG TARGETARCH
@@ -62,6 +56,13 @@ RUN set -eux; \
 ARG DESCRIPTION=
 LABEL org.opencontainers.image.source=https://github.com/sfmunoz/k8s-bulk
 LABEL org.opencontainers.image.description="${DESCRIPTION}"
+
+# bulk is the runtime user: fixed numeric UID/GID (1000 is the first regular
+# user on Debian) so Kubernetes can verify it with runAsNonRoot.
+# after the labels, so a changing DESCRIPTION does not rebuild earlier layers
+RUN groupadd --gid 1000 bulk \
+    && useradd --uid 1000 --gid bulk --shell /usr/bin/zsh --create-home bulk \
+    && usermod -s /usr/bin/zsh root
 
 # zsh is the default shell for interactive sessions
 ENV SHELL=/usr/bin/zsh
