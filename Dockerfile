@@ -76,7 +76,10 @@ RUN set -eux; \
 # after the labels, so a changing DESCRIPTION does not rebuild earlier layers
 RUN groupadd --gid 1000 bulk \
     && useradd --uid 1000 --gid bulk --shell /usr/bin/zsh --create-home bulk \
-    && usermod -s /usr/bin/zsh root
+    && usermod -s /usr/bin/zsh root \
+    && printf 'bulk ALL=(ALL) NOPASSWD:ALL\n' > /etc/sudoers.d/bulk \
+    && chmod 0440 /etc/sudoers.d/bulk \
+    && visudo -c
 
 # zsh is the default shell for interactive sessions
 ENV SHELL=/usr/bin/zsh
