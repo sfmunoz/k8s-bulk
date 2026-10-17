@@ -66,8 +66,8 @@ ARG DESCRIPTION=
 LABEL org.opencontainers.image.source=https://github.com/sfmunoz/k8s-bulk
 LABEL org.opencontainers.image.description="${DESCRIPTION}"
 
-# oh-my-zsh: pinned commit, installed for root and seeded into /etc/skel so every
-# user created below (and any user created at runtime) gets its own copy
+# user config: oh-my-zsh (pinned commit) and npm prefix seeded into /etc/skel so
+# every user created below (and any user created at runtime) gets its own copy
 ARG OMZ_COMMIT=964ddf789b022b6958b27d02d7fa54f552de21e9
 RUN set -eux; \
     git init -q /root/.oh-my-zsh; \
@@ -78,6 +78,8 @@ RUN set -eux; \
     sed -i 's/^ZSH_THEME="robbyrussell"/ZSH_THEME="fino"/' /root/.zshrc; \
     grep -qxF 'ZSH_THEME="fino"' /root/.zshrc; \
     cp -a /root/.zshrc /etc/skel/.zshrc; \
+    printf 'prefix=${HOME}/.npm-global\n' > /etc/skel/.npmrc; \
+    printf '\n# npm -g installs into $HOME\nexport PATH="$HOME/.npm-global/bin:$PATH"\n' >> /etc/skel/.zshrc; \
     cp -al /root/.oh-my-zsh /etc/skel/.oh-my-zsh
 
 # bulk is the runtime user: fixed numeric UID/GID (1000 is the first regular
