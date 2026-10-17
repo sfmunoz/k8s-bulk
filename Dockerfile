@@ -18,7 +18,7 @@ RUN apt-get update \
 
 # shell, editor and interactive tools: the most likely to be dropped
 RUN apt-get update \
-    && apt-get install -y zsh neovim tmux htop ripgrep fd-find sqlite3 \
+    && apt-get install -y zsh neovim tmux htop ripgrep fd-find sqlite3 restic \
     && rm -rf /var/lib/apt/lists/*
 
 # zellij is not packaged in Debian testing: install the upstream static musl binary
