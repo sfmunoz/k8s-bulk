@@ -13,7 +13,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update \
-    && apt-get install -y python3 nodejs npm \
+    && apt-get install -y python3 nodejs npm python3-venv \
     && rm -rf /var/lib/apt/lists/*
 
 # shell, editor and interactive tools: the most likely to be dropped
