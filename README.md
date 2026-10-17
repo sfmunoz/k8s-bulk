@@ -91,9 +91,10 @@ securityContext:
   runAsUser: 0
 ```
 
-Runtime installs that do not need root should still land in `$HOME`
-(`npm config set prefix ~/.npm-global`, `pip install --user`); `/usr/local` and `/etc`
-are root-owned.
+Runtime installs that do not need root land in `$HOME`: npm is preconfigured via
+`/etc/skel/.npmrc` (`prefix=${HOME}/.npm-global`) and `$HOME/.npm-global/bin` is on
+`PATH` via the seeded `.zshrc`; use `pip install --user` for Python.
+`/usr/local` and `/etc` are root-owned.
 
 When mounting a volume, make it writable for UID `1000`, either with `chown 1000:1000`
 or Kubernetes `securityContext.fsGroup`.
