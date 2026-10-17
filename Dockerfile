@@ -2,8 +2,10 @@
 
 FROM debian:forky-20261005-slim
 
+# systemd-standalone-sysusers satisfies openssh-client's sysusers dependency
+# without dragging in the full systemd package
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends ca-certificates curl git ripgrep fd-find sqlite3 zsh neovim tmux htop procps less python3 nodejs npm unzip \
+    && apt-get install -y --no-install-recommends ca-certificates curl git ripgrep fd-find sqlite3 zsh neovim tmux htop procps less python3 nodejs npm unzip openssh-client systemd-standalone-sysusers \
     && rm -rf /var/lib/apt/lists/*
 
 # zsh is the login shell for root

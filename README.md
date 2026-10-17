@@ -27,6 +27,7 @@ but security updates only land when the tag is bumped.
 | htop    | Interactive process viewer |
 | procps  | Process and system utilities (ps, top, free, vmstat) |
 | less    | Pager for viewing files |
+| openssh-client | SSH client (`ssh`, `scp`, `sftp`; no server) |
 | python3 | Python 3 interpreter |
 | zellij  | Terminal workspace and multiplexer (upstream static binary) |
 | nodejs  | Node.js 24 LTS runtime and npm (Debian package) |
