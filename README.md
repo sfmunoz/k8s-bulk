@@ -35,6 +35,7 @@ installed at runtime stay minimal.
 | zellij  | Terminal workspace and multiplexer (upstream static binary) |
 | nodejs  | Node.js 24 LTS runtime and npm (Debian package) |
 | unzip   | Extract ZIP archives (used to install rclone) |
+| sudo    | Run commands as root (granted to `bulk`, see below) |
 | oh-my-zsh | zsh framework (upstream git, pinned commit; seeded into `/etc/skel`) |
 
 `python3` and `nodejs` are the bundled runtimes, and `nodejs` comes with `npm`.
@@ -65,7 +66,19 @@ Everything runs as the unprivileged user `bulk` (UID/GID `1000:1000`), with
 explicitly so Kubernetes accepts `runAsNonRoot: true`, which can only verify a
 numeric user.
 
-Root is still reachable when you really need it — no `sudo` is installed:
+`sudo` is installed and granted to `bulk` passwordless, via `/etc/sudoers.d/bulk`
+(mode `0440`):
+
+```sh
+sudo apt-get update && sudo apt-get install -y <package>
+```
+
+That rule is `NOPASSWD:ALL`, so `USER 1000:1000` is the default user, not a security
+boundary: any process running as `bulk` can become root. Use it knowingly, and do not
+combine it with `--security-opt=no-new-privileges` — that blocks the `setuid` bit on
+`/usr/bin/sudo` and makes `sudo` fail.
+
+Without `sudo` (for example in a restricted pod), root is still reachable from outside:
 
 ```sh
 # docker
@@ -78,8 +91,9 @@ securityContext:
   runAsUser: 0
 ```
 
-Runtime installs must land in `$HOME` (`npm config set prefix ~/.npm-global`,
-`pip install --user`); `/usr/local` and `/etc` are root-owned and not writable.
+Runtime installs that do not need root should still land in `$HOME`
+(`npm config set prefix ~/.npm-global`, `pip install --user`); `/usr/local` and `/etc`
+are root-owned.
 
 When mounting a volume, make it writable for UID `1000`, either with `chown 1000:1000`
 or Kubernetes `securityContext.fsGroup`.
