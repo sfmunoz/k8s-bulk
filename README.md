@@ -31,15 +31,15 @@ installed at runtime stay minimal.
 | procps  | Process and system utilities (ps, top, free, vmstat) |
 | less    | Pager for viewing files |
 | openssh-client | SSH client (`ssh`, `scp`, `sftp`; no server) |
-| python3 | Python 3 interpreter |
+| python3 | Python 3 interpreter and `venv` (via `python3-venv`) |
 | zellij  | Terminal workspace and multiplexer (upstream static binary) |
 | nodejs  | Node.js 24 LTS runtime and npm (Debian package) |
 | unzip   | Extract ZIP archives (used to install rclone) |
 | sudo    | Run commands as root (granted to `bulk`, see below) |
 | oh-my-zsh | zsh framework (upstream git, pinned commit; seeded into `/etc/skel`) |
 
-`python3` and `nodejs` are the bundled runtimes, and `nodejs` comes with `npm`.
-Install any other language runtime at runtime.
+`python3` and `nodejs` are the bundled runtimes: `python3` includes `venv`, and
+`nodejs` comes with `npm`. Install any other language runtime at runtime.
 
 `zsh` is the login shell for `root` and `bulk`.
 
