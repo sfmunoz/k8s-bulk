@@ -57,6 +57,20 @@ ARG DESCRIPTION=
 LABEL org.opencontainers.image.source=https://github.com/sfmunoz/k8s-bulk
 LABEL org.opencontainers.image.description="${DESCRIPTION}"
 
+# oh-my-zsh: pinned commit, installed for root and seeded into /etc/skel so every
+# user created below (and any user created at runtime) gets its own copy
+ARG OMZ_COMMIT=964ddf789b022b6958b27d02d7fa54f552de21e9
+RUN set -eux; \
+    git init -q /root/.oh-my-zsh; \
+    git -C /root/.oh-my-zsh remote add origin https://github.com/ohmyzsh/ohmyzsh.git; \
+    git -C /root/.oh-my-zsh fetch -q --depth 1 origin "${OMZ_COMMIT}"; \
+    git -C /root/.oh-my-zsh checkout -q -B master "${OMZ_COMMIT}"; \
+    cp /root/.oh-my-zsh/templates/zshrc.zsh-template /root/.zshrc; \
+    sed -i 's/^ZSH_THEME="robbyrussell"/ZSH_THEME="fino"/' /root/.zshrc; \
+    grep -qxF 'ZSH_THEME="fino"' /root/.zshrc; \
+    cp -a /root/.zshrc /etc/skel/.zshrc; \
+    cp -al /root/.oh-my-zsh /etc/skel/.oh-my-zsh
+
 # bulk is the runtime user: fixed numeric UID/GID (1000 is the first regular
 # user on Debian) so Kubernetes can verify it with runAsNonRoot.
 # after the labels, so a changing DESCRIPTION does not rebuild earlier layers
@@ -66,7 +80,6 @@ RUN groupadd --gid 1000 bulk \
 
 # zsh is the default shell for interactive sessions
 ENV SHELL=/usr/bin/zsh
-ENV HOME=/home/bulk
 
 # everything at runtime runs unprivileged; use 'docker run -u 0' when root is needed
 USER 1000:1000

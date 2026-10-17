@@ -35,12 +35,25 @@ installed at runtime stay minimal.
 | zellij  | Terminal workspace and multiplexer (upstream static binary) |
 | nodejs  | Node.js 24 LTS runtime and npm (Debian package) |
 | unzip   | Extract ZIP archives (used to install rclone) |
+| oh-my-zsh | zsh framework (upstream git, pinned commit; seeded into `/etc/skel`) |
 
 `python3` and `nodejs` are the bundled runtimes, and `nodejs` comes with `npm`.
 Install any other language runtime at runtime.
 
-`zsh` is the login shell for `root` and `bulk`, with zsh defaults (no configuration
-is shipped).
+`zsh` is the login shell for `root` and `bulk`.
+
+oh-my-zsh is installed for `root` in `/root/.oh-my-zsh` with the stock
+`templates/zshrc.zsh-template` as `/root/.zshrc`, with `ZSH_THEME` set to `fino`. The same tree
+is seeded into `/etc/skel` (hardlinked in the image), so every user created afterwards
+— `bulk`, and any user created at runtime with `useradd -m` — gets its own copy in its
+home directory, owned by that user. The template sets `ZSH="$HOME/.oh-my-zsh"`, so each
+user loads their own copy.
+
+Consequences:
+
+- A new home directory costs ~16 MB more than stock `/etc/skel`.
+- `.git` is kept, so `omz update` works; the commit is pinned by the `OMZ_COMMIT` build
+  arg, so an in-place `git pull` can diverge from the pinned commit.
 
 `tmux` and `zellij` are registered in `/etc/shells`, so either can be set as a login
 shell.
