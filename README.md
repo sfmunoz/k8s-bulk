@@ -10,6 +10,9 @@ Registry: `ghcr.io/sfmunoz/k8s-bulk`
 The base is Debian *testing* (forky), pinned to a dated snapshot tag: reproducible,
 but security updates only land when the tag is bumped.
 
+`apt` runs with `Install-Recommends` and `Install-Suggests` disabled, so packages
+installed at runtime stay minimal.
+
 ## Installed packages
 
 | Package | Purpose |
