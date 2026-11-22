@@ -1,6 +1,6 @@
 # Check 'README.md' for usage instructions
 
-FROM debian:forky-20261005-slim
+FROM debian:forky-20261104-slim
 
 # make apt minimal by default, including for installs done at runtime
 RUN printf 'APT::Install-Recommends "false";\nAPT::Install-Suggests "false";\n' \
