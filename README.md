@@ -47,6 +47,11 @@ installed at runtime stay minimal.
 
 `zsh` is the login shell for `root` and `bulk`.
 
+`/bin/sh` is a symlink to `bash`, overriding the Debian default (`dash`). Scripts
+written for `/bin/sh` may therefore use bashisms (`$RANDOM`, `{1..3}`, `[[ ]]`), which
+`dash` rejects or — worse — evaluates silently: `$RANDOM` expands to an empty string,
+so randomized sleeps lose their jitter and every replica runs in lockstep.
+
 oh-my-zsh is installed for `root` in `/root/.oh-my-zsh` with the stock
 `templates/zshrc.zsh-template` as `/root/.zshrc`, with `ZSH_THEME` set to `fino`. The same tree
 is seeded into `/etc/skel` (hardlinked in the image), so every user created afterwards
