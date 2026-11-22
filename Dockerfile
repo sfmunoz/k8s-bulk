@@ -126,6 +126,12 @@ RUN set -eux; \
     grep -qxF '[CONFIG FILE]: Well defined.' /tmp/zellij-check.out; \
     rm -f /tmp/zellij-check.out
 
+# '/bin/sh' -> bash: Debian points it to dash, which lacks bashisms such as '$RANDOM'
+# and silently degrades instead of failing. 'bash' is already in the base image.
+RUN ln -sf bash /bin/sh \
+    && [ "$(readlink -f /bin/sh)" = /usr/bin/bash ] \
+    && [ "$(/bin/sh -c 'echo {1..3}')" = "1 2 3" ]
+
 # bulk is the runtime user: fixed numeric UID/GID (1000 is the first regular
 # user on Debian) so Kubernetes can verify it with runAsNonRoot.
 # after the labels, so a changing DESCRIPTION does not rebuild earlier layers
