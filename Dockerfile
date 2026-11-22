@@ -9,7 +9,7 @@ RUN printf 'APT::Install-Recommends "false";\nAPT::Install-Suggests "false";\n' 
 # Packages are installed in three groups, most stable first: a change to a group
 # only invalidates that group's layer and the ones below it.
 RUN apt-get update \
-    && apt-get install -y ca-certificates curl git openssh-client unzip less procps sudo systemd-standalone-sysusers \
+    && apt-get install -y ca-certificates curl git openssh-client unzip bzip2 less procps sudo systemd-standalone-sysusers \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update \
@@ -18,7 +18,7 @@ RUN apt-get update \
 
 # shell, editor and interactive tools: the most likely to be dropped
 RUN apt-get update \
-    && apt-get install -y zsh neovim tmux htop ripgrep fd-find sqlite3 restic \
+    && apt-get install -y zsh neovim tmux htop ripgrep fd-find sqlite3 \
     && rm -rf /var/lib/apt/lists/*
 
 # zellij is not packaged in Debian testing: install the upstream static musl binary
@@ -61,6 +61,29 @@ RUN set -eux; \
     unzip -j -o /tmp/rclone.zip "*/rclone" -d /usr/local/bin; \
     rm -f /tmp/rclone.zip /tmp/rclone.sha256sum; \
     env -u RCLONE_VERSION rclone version
+
+# restic is no longer in Debian testing (forky): it was removed on 2026-11-10 and
+# 0.20.0-1 stays blocked in unstable, so install the upstream release instead.
+ARG RESTIC_VERSION=0.20.0
+ARG TARGETARCH
+RUN set -eux; \
+    case "${TARGETARCH:-$(dpkg --print-architecture)}" in \
+        amd64) restic_arch=amd64 ;; \
+        arm64) restic_arch=arm64 ;; \
+        *) echo "unsupported architecture: ${TARGETARCH}" >&2; exit 1 ;; \
+    esac; \
+    base="https://github.com/restic/restic/releases/download/v${RESTIC_VERSION}"; \
+    restic_bz2="restic_${RESTIC_VERSION}_linux_${restic_arch}.bz2"; \
+    curl -fsSLo "/tmp/${restic_bz2}" "${base}/${restic_bz2}"; \
+    curl -fsSLo /tmp/restic.sha256sum "${base}/SHA256SUMS"; \
+    expected="$(awk -v f="${restic_bz2}" '$2 == f {print $1}' /tmp/restic.sha256sum)"; \
+    actual="$(sha256sum "/tmp/${restic_bz2}" | awk '{print $1}')"; \
+    [ -n "${expected}" ]; \
+    [ "${expected}" = "${actual}" ]; \
+    bunzip2 -c "/tmp/${restic_bz2}" > /usr/local/bin/restic; \
+    rm -f "/tmp/${restic_bz2}" /tmp/restic.sha256sum; \
+    chmod 0755 /usr/local/bin/restic; \
+    env -u RESTIC_VERSION restic version
 
 ARG DESCRIPTION=
 LABEL org.opencontainers.image.source=https://github.com/sfmunoz/k8s-bulk

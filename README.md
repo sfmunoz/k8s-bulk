@@ -19,7 +19,7 @@ installed at runtime stay minimal.
 |---------|---------|
 | ca-certificates | TLS trust store for curl and rclone |
 | rclone  | Cloud storage sync (S3, GCS, etc.; upstream static binary) |
-| restic  | Deduplicated, encrypted backup snapshots (S3, etc.) |
+| restic  | Deduplicated, encrypted backup snapshots (S3, etc.; upstream static binary) |
 | curl    | HTTP requests, API calls, health checks |
 | git     | Version control |
 | ripgrep | Fast recursive search (`rg`) |
@@ -36,6 +36,7 @@ installed at runtime stay minimal.
 | zellij  | Terminal workspace and multiplexer (upstream static binary) |
 | nodejs  | Node.js 24 LTS runtime and npm (Debian package) |
 | unzip   | Extract ZIP archives (used to install rclone) |
+| bzip2   | bzip2 decompression (used to install restic) |
 | sudo    | Run commands as root (granted to `bulk`, see below) |
 | oh-my-zsh | zsh framework (upstream git, pinned commit; seeded into `/etc/skel`) |
 
