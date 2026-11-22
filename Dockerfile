@@ -105,6 +105,27 @@ RUN set -eux; \
     printf '\n# npm -g installs into $HOME\nexport PATH="$HOME/.npm-global/bin:$PATH"\n' >> /etc/skel/.zshrc; \
     cp -al /root/.oh-my-zsh /etc/skel/.oh-my-zsh
 
+# zellij config (pinned commit) seeded into /etc/skel, so zellij starts with the
+# same keybindings/layouts for every user instead of its built-in defaults; only
+# the config itself is seeded, not the repo's LICENSE/README
+ARG ZELLIJ_CONFIG_COMMIT=7af5add6785c7ad2eb1bc50835cbbb1cba852192
+RUN set -eux; \
+    git init -q /tmp/zellij-config; \
+    git -C /tmp/zellij-config remote add origin https://github.com/sfmunoz/zellij-config.git; \
+    git -C /tmp/zellij-config fetch -q --depth 1 origin "${ZELLIJ_CONFIG_COMMIT}"; \
+    git -C /tmp/zellij-config checkout -q -B main "${ZELLIJ_CONFIG_COMMIT}"; \
+    install -d -m 0755 /etc/skel/.config/zellij/layouts; \
+    install -m 0644 /tmp/zellij-config/config.kdl /etc/skel/.config/zellij/config.kdl; \
+    install -m 0644 /tmp/zellij-config/layouts/default.kdl /etc/skel/.config/zellij/layouts/default.kdl; \
+    rm -rf /tmp/zellij-config; \
+    test -s /etc/skel/.config/zellij/config.kdl; \
+    test -s /etc/skel/.config/zellij/layouts/default.kdl; \
+    env -u ZELLIJ_CONFIG_COMMIT HOME=/etc/skel zellij setup --check \
+    | tee /tmp/zellij-check.out; \
+    grep -qxF '[CONFIG DIR]: "/etc/skel/.config/zellij"' /tmp/zellij-check.out; \
+    grep -qxF '[CONFIG FILE]: Well defined.' /tmp/zellij-check.out; \
+    rm -f /tmp/zellij-check.out
+
 # bulk is the runtime user: fixed numeric UID/GID (1000 is the first regular
 # user on Debian) so Kubernetes can verify it with runAsNonRoot.
 # after the labels, so a changing DESCRIPTION does not rebuild earlier layers
