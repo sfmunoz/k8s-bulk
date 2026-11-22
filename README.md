@@ -24,6 +24,7 @@ installed at runtime stay minimal.
 | git     | Version control |
 | ripgrep | Fast recursive search (`rg`) |
 | fd-find | Fast file finder (binary `fdfind`) |
+| rsync   | Incremental file sync (`rsync`, also over `ssh`) |
 | sqlite3 | Lightweight local data queries |
 | zsh     | Interactive shell with completion and theming |
 | neovim  | Modal text editor |
