@@ -40,6 +40,7 @@ installed at runtime stay minimal.
 | bzip2   | bzip2 decompression (used to install restic) |
 | sudo    | Run commands as root (granted to `bulk`, see below) |
 | oh-my-zsh | zsh framework (upstream git, pinned commit; seeded into `/etc/skel`) |
+| zellij-config | zellij config and layouts (upstream git, pinned commit; seeded into `/etc/skel`) |
 
 `python3` and `nodejs` are the bundled runtimes: `python3` includes `venv`, and
 `nodejs` comes with `npm`. Install any other language runtime at runtime.
@@ -61,6 +62,15 @@ Consequences:
 
 `tmux` and `zellij` are registered in `/etc/shells`, so either can be set as a login
 shell.
+
+zellij's config is seeded as well: `config.kdl` and `layouts/default.kdl` from
+[zellij-config](https://github.com/sfmunoz/zellij-config) are copied to
+`/etc/skel/.config/zellij/`, so every user created afterwards starts zellij with the
+same keybindings and layout instead of the built-in defaults. The commit is pinned by
+the `ZELLIJ_CONFIG_COMMIT` build arg, and only those two files are seeded — the repo's
+`LICENSE` and `README.md` are left out. Unlike oh-my-zsh the tree is *not* hardlinked:
+it is a user-specific config meant to be edited in place, so each home gets its own
+copy.
 
 ## User
 
