@@ -4,7 +4,7 @@
 Debian-based image with a few CLI tools baked in, designed for general
 housekeeping, operators, and ad-hoc tasks inside a cluster.
 
-Base image: `debian:forky-20261005-slim`
+Base image: `debian:forky-20261104-slim`
 Registry: `ghcr.io/sfmunoz/k8s-bulk`
 
 The base is Debian *testing* (forky), pinned to a dated snapshot tag: reproducible,
