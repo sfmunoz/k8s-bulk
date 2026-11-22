@@ -12,12 +12,6 @@ RUN apt-get update \
     && apt-get install -y ca-certificates curl git openssh-client unzip bzip2 less procps sudo systemd-standalone-sysusers \
     && rm -rf /var/lib/apt/lists/*
 
-# '/bin/sh' -> bash: Debian points it to dash, which lacks bashisms such as '$RANDOM'
-# and silently degrades instead of failing. 'bash' is already in the base image.
-RUN ln -sf bash /bin/sh \
-    && [ "$(readlink -f /bin/sh)" = /usr/bin/bash ] \
-    && [ "$(/bin/sh -c 'echo {1..3}')" = "1 2 3" ]
-
 RUN apt-get update \
     && apt-get install -y python3 nodejs npm python3-venv \
     && rm -rf /var/lib/apt/lists/*
@@ -131,6 +125,12 @@ RUN set -eux; \
     grep -qxF '[CONFIG DIR]: "/etc/skel/.config/zellij"' /tmp/zellij-check.out; \
     grep -qxF '[CONFIG FILE]: Well defined.' /tmp/zellij-check.out; \
     rm -f /tmp/zellij-check.out
+
+# '/bin/sh' -> bash: Debian points it to dash, which lacks bashisms such as '$RANDOM'
+# and silently degrades instead of failing. 'bash' is already in the base image.
+RUN ln -sf bash /bin/sh \
+    && [ "$(readlink -f /bin/sh)" = /usr/bin/bash ] \
+    && [ "$(/bin/sh -c 'echo {1..3}')" = "1 2 3" ]
 
 # bulk is the runtime user: fixed numeric UID/GID (1000 is the first regular
 # user on Debian) so Kubernetes can verify it with runAsNonRoot.
