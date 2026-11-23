@@ -21,6 +21,8 @@ installed at runtime stay minimal.
 | rclone  | Cloud storage sync (S3, GCS, etc.; upstream static binary) |
 | restic  | Deduplicated, encrypted backup snapshots (S3, etc.; upstream static binary) |
 | curl    | HTTP requests, API calls, health checks |
+| iputils-ping | ICMP echo (`ping`), IPv4 and IPv6 in one binary |
+| libcap2-bin | `setcap` / `getcap` (used to give `ping` its `cap_net_raw`) |
 | git     | Version control |
 | ripgrep | Fast recursive search (`rg`) |
 | fd-find | Fast file finder (binary `fdfind`) |
@@ -42,7 +44,18 @@ installed at runtime stay minimal.
 | oh-my-zsh | zsh framework (upstream git, pinned commit; seeded into `/etc/skel`) |
 | zellij-config | zellij config and layouts (upstream git, pinned commit; seeded into `/etc/skel`) |
 
-`python3` and `nodejs` are the bundled runtimes: `python3` includes `venv`, and
+`ping` needs `cap_net_raw` and the container runs as the unprivileged user `bulk`, so
+the Dockerfile sets the file capability `cap_net_raw+ep` on `/usr/bin/ping` itself:
+Debian's `iputils-ping` ships neither a postinst that does it nor the capability, and
+the unprivileged-ICMP fallback depends on `net.ipv4.ping_group_range`, which Docker
+leaves wide open but a Kubernetes pod does not (`1 0` = disabled). Consequently `ping`
+works under the default `securityContext` — `NET_RAW` is in the default capability set
+and file capabilities are honoured — but fails with *Operation not permitted* when the
+pod sets `allowPrivilegeEscalation: false` (file capabilities are ignored) or drops
+`NET_RAW`. Either allow it, or set the pod sysctl `net.ipv4.ping_group_range` to cover
+the container's GID.
+
+ `python3` and `nodejs` are the bundled runtimes: `python3` includes `venv`, and
 `nodejs` comes with `npm`. Install any other language runtime at runtime.
 
 `zsh` is the login shell for `root` and `bulk`.

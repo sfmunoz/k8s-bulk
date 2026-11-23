@@ -8,8 +8,16 @@ RUN printf 'APT::Install-Recommends "false";\nAPT::Install-Suggests "false";\n' 
 
 # Packages are installed in three groups, most stable first: a change to a group
 # only invalidates that group's layer and the ones below it.
+# 'ping' is the first diagnostic anyone reaches for when a container "has no network";
+# curl/getent only answer DNS and TCP, not ICMP. Debian's iputils-ping ships no file
+# capability, so 'ping' only works where net.ipv4.ping_group_range is wide open (Docker's
+# default); in a pod (default '1 0') it fails as a non-root user. Set the capability
+# explicitly: libcap2-bin stays for getcap at runtime.
 RUN apt-get update \
-    && apt-get install -y ca-certificates curl git openssh-client unzip bzip2 less procps sudo systemd-standalone-sysusers \
+    && apt-get install -y ca-certificates curl iputils-ping libcap2-bin git openssh-client unzip bzip2 less procps sudo systemd-standalone-sysusers \
+    && setcap cap_net_raw+ep /usr/bin/ping \
+    && getcap /usr/bin/ping | grep -qx '/usr/bin/ping cap_net_raw=ep' \
+    && ping -c1 -W1 127.0.0.1 \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update \
