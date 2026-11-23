@@ -15,12 +15,15 @@ RUN printf 'APT::Install-Recommends "false";\nAPT::Install-Suggests "false";\n' 
 # explicitly: libcap2-bin stays for getcap at runtime.
 # 'inetutils-telnet' provides 'telnet' (the 'telnet' package is an empty dummy):
 # client only, and only good for "does this TCP port answer".
+# 'tini' is PID 1 (see ENTRYPOINT below): no Docker '--init' and no Kubernetes
+# equivalent exist, so the reaper has to ship in the image.
 RUN apt-get update \
-    && apt-get install -y ca-certificates curl iputils-ping libcap2-bin inetutils-telnet git openssh-client unzip bzip2 less procps sudo systemd-standalone-sysusers \
+    && apt-get install -y ca-certificates curl iputils-ping libcap2-bin inetutils-telnet git openssh-client unzip bzip2 less procps sudo systemd-standalone-sysusers tini \
     && setcap cap_net_raw+ep /usr/bin/ping \
     && getcap /usr/bin/ping | grep -qx '/usr/bin/ping cap_net_raw=ep' \
     && ping -c1 -W1 127.0.0.1 \
     && telnet --help | grep -q '^Usage: telnet' \
+    && tini --version \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update \
@@ -159,5 +162,12 @@ ENV SHELL=/usr/bin/zsh
 # everything at runtime runs unprivileged; use 'docker run -u 0' when root is needed
 USER 1000:1000
 WORKDIR /home/bulk
+
+# tini as PID 1: reaps orphans reparented to PID 1 and, with '-g' (tini >= 0.19),
+# forwards SIGTERM to the child's process group instead of just the direct child;
+# it also propagates the child's exit code. No '-s': tini is already PID 1 here.
+# 'ENTRYPOINT' means overriding only 'CMD' keeps the init: in Kubernetes use
+# 'args', not 'command' (which replaces the ENTRYPOINT).
+ENTRYPOINT ["/usr/bin/tini", "-g", "--"]
 
 CMD ["zsh", "-l"]

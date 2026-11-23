@@ -34,6 +34,7 @@ installed at runtime stay minimal.
 | tmux    | Terminal multiplexer |
 | htop    | Interactive process viewer |
 | procps  | Process and system utilities (ps, top, free, vmstat) |
+| tini    | PID 1 process reaper and signal forwarder (see below) |
 | less    | Pager for viewing files |
 | openssh-client | SSH client (`ssh`, `scp`, `sftp`; no server) |
 | python3 | Python 3 interpreter and `venv` (via `python3-venv`) |
@@ -97,6 +98,51 @@ the `ZELLIJ_CONFIG_COMMIT` build arg, and only those two files are seeded — th
 `LICENSE` and `README.md` are left out. Unlike oh-my-zsh the tree is *not* hardlinked:
 it is a user-specific config meant to be edited in place, so each home gets its own
 copy.
+
+## PID 1: tini
+
+The image entrypoint is `["/usr/bin/tini", "-g", "--"]`, with `["zsh", "-l"]` as
+`CMD`. A container has no equivalent of `docker run --init` in Kubernetes, so the init
+has to ship in the image. Without it the command runs as PID 1, which means:
+
+- no signal forwarding: a shell as PID 1 does not pass `SIGTERM` to its jobs, so pod
+  termination idles out the grace period and ends in `SIGKILL`;
+- no reaping: background processes left behind by the session are never collected;
+- no exit-status propagation, so `docker run` / `kubectl run --rm` report the wrong code.
+
+`tini` fixes all three: it reaps reparented orphans, forwards signals to the child's
+whole process group (`-g`, needs tini >= 0.19) and exits with the child's status. `-s`
+(subreaper) is deliberately *not* passed: it only matters when tini is not PID 1.
+
+Consequences:
+
+- `docker run --init` and Compose `init: true` are redundant. tini inside tini is
+  harmless but pointless.
+- `kubectl exec` sessions are separate process trees and are unaffected.
+- One-shot use is `docker run --rm ghcr.io/sfmunoz/k8s-bulk:devel <cmd>`, not
+  `... tini -- <cmd>`; the entrypoint is already tini.
+
+## Idle container
+
+`CMD` is `zsh -l`, which is meant for interactive sessions (`docker run -it`,
+`kubectl run --rm -it`). In a Deployment there is no TTY and no `stdin`, so zsh exits
+immediately and the Pod crash-loops. For a container that only needs to stay alive,
+override **`args`**, never `command`:
+
+```yaml
+# Kubernetes: 'command' would replace the ENTRYPOINT and discard tini
+args: ["sleep", "infinity"]
+```
+
+```sh
+# Docker: only 'CMD' is replaced
+docker run -d ghcr.io/sfmunoz/k8s-bulk:devel sleep infinity
+```
+
+`sleep infinity` is GNU coreutils, present in Debian: one process, no CPU, and it dies
+on `SIGTERM`, which tini then reports. `tail -f /dev/null & wait $!` is unnecessary —
+that idiom only earns its keep when a shell must run setup before blocking, and `-g`
+already covers signal forwarding.
 
 ## User
 
