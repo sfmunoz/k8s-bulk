@@ -23,6 +23,7 @@ installed at runtime stay minimal.
 | curl    | HTTP requests, API calls, health checks |
 | iputils-ping | ICMP echo (`ping`), IPv4 and IPv6 in one binary |
 | libcap2-bin | `setcap` / `getcap` (used to give `ping` its `cap_net_raw`) |
+| inetutils-telnet | TCP port probe (`telnet <host> <port>`); client only |
 | git     | Version control |
 | ripgrep | Fast recursive search (`rg`) |
 | fd-find | Fast file finder (binary `fdfind`) |
@@ -54,6 +55,13 @@ and file capabilities are honoured — but fails with *Operation not permitted* 
 pod sets `allowPrivilegeEscalation: false` (file capabilities are ignored) or drops
 `NET_RAW`. Either allow it, or set the pod sysctl `net.ipv4.ping_group_range` to cover
 the container's GID.
+
+`telnet` is the crudest TCP port test there is: `telnet <host> <port>` answers whether
+the port accepts a connection, nothing more. The image installs `inetutils-telnet`
+— the `telnet` package in forky is an empty dummy that only depends on it — and ships
+the client only, no `telnetd`. No TLS, no HTTP: anything past "does this port answer"
+belongs to `curl` or `openssl s_client`. `nc` (`netcat-openbsd`) is the closer
+equivalent and was not picked because `telnet` is what people type from muscle memory.
 
  `python3` and `nodejs` are the bundled runtimes: `python3` includes `venv`, and
 `nodejs` comes with `npm`. Install any other language runtime at runtime.
